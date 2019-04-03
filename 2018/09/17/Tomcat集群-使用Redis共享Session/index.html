@@ -13,11 +13,11 @@
 
     <title>
         
-          Welcome to Hux Blog - Justin的博客 | Justin&#39;s Blog
+          Tomcat集群-使用Redis共享Session - Justin的博客 | Justin&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://shenmamuniu.github.io/blog/blog/2014/01/29/hello-2015/">
+    <link rel="canonical" href="https://shenmamuniu.github.io/blog/blog/2018/09/17/Tomcat集群-使用Redis共享Session/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
@@ -155,7 +155,7 @@
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
-        background-image: url('post-bg-2015.jpg')
+        background-image: url('/blog/img/home-bg.jpg')
     }
 </style>
 <header class="intro-header">
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/blog/tags/#生活" title="生活">生活</a>
+                          <a class="tag" href="/blog/tags/#Redis" title="Redis">Redis</a>
                         
                     </div>
-                    <h1>Welcome to Hux Blog</h1>
-                    <h2 class="subheading"> &quot;Hello World, Hello Blog&quot;</h2>
+                    <h1>Tomcat集群-使用Redis共享Session</h1>
+                    <h2 class="subheading"></h2>
                     <span class="meta">
-                        Posted by Hux on
-                        2014-01-29
+                        Posted by Justin Quber on
+                        2018-09-17
                     </span>
                 </div>
             </div>
@@ -191,39 +191,27 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <blockquote>
-<p>“Yeah It’s on. ”</p>
-</blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hux 的 Blog 就这么开通了。</p>
-<p><a href="#build">跳过废话，直接看技术实现 </a></p>
-<p>2015 年，Hux 总算有个地方可以好好写点东西了。</p>
-<p>作为一个程序员， Blog 这种轮子要是挂在大众博客程序上就太没意思了。一是觉得大部分 Blog 服务都太丑，二是觉得不能随便定制不好玩。之前因为太懒没有折腾，结果就一直连个写 Blog 的地儿都没有。</p>
-<p>在玩了一段时间知乎之后，答题的快感又激起了我开博客的冲动。之前的<a href="http://huangxuan.me/portfolio" target="_blank" rel="noopener">个人网站</a>是作品集形式的（现在集成进来了），并不适合用来写博文，一不做二不休，花一天搞一个吧！</p>
-<h2 id><a href="#" class="headerlink" title></a><p id="build"></p></h2><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>接下来说说搭建这个博客的技术细节。  </p>
-<p>正好之前就有关注过 <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> + <a href="http://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a> 快速 Building Blog 的技术方案，非常轻松时尚。</p>
-<p>其优点非常明显：</p>
-<ul>
-<li><strong>Markdown</strong> 带来的优雅写作体验</li>
-<li>非常熟悉的 Git workflow ，<strong>Git Commit 即 Blog Post</strong></li>
-<li>利用 GitHub Pages 的域名和免费无限空间，不用自己折腾主机<ul>
-<li>如果需要自定义域名，也只需要简单改改 DNS 加个 CNAME 就好了</li>
-</ul>
-</li>
-<li>Jekyll 的自定制非常容易，基本就是个模版引擎</li>
-</ul>
-<p>本来觉得最大的缺点可能是 GitHub 在国内访问起来太慢，所以第二天一起床就到 GitCafe(Chinese GitHub Copy) 迁移了一个<a href="http://huxpro.gitcafe.io" target="_blank" rel="noopener">镜像</a>出来，结果还是巨慢。</p>
-<p>哥哥可是个前端好嘛！ 果断开 Chrome DevTool 查了下网络请求，原来是 <strong>pending 在了 Google Fonts</strong> 上，页面渲染一直被阻塞到请求超时为止，难怪这么慢。<br>忍痛割爱，只好把 Web Fonts 去了（反正超时看到的也只能是 fallback ），果然一下就正常了，而且 GitHub 和 GitCafe 对比并没有感受到明显的速度差异，虽然 github 的 ping 值明显要高一些，达到了 300ms，于是用 DNSPOD 优化了一下速度。</p>
-<hr>
-<p>配置的过程中也没遇到什么坑，基本就是 Git 的流程，相当顺手</p>
-<p>大的 Jekyll 主题上直接 fork 了 Clean Blog（这个主题也相当有名，就不多赘述了。唯一的缺点大概就是没有标签支持，于是我给它补上了。）</p>
-<p>本地调试环境需要 <code>gem install jekyll</code>，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功</p>
-<p>Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了（平时更习惯 SCSS 些），<strong>不过其实我一直觉得 Bootstrap 在移动端的体验做得相当一般，比我在淘宝参与的团队 CSS 框架差多了……</strong>所以为了体验，也补了不少 CSS 进去</p>
-<p>最后就进入了耗时反而最长的<strong>做图、写字</strong>阶段，也算是进入了<strong>写博客</strong>的正轨，因为是类似 Hack Day 的方式去搭这个站的，所以折腾折腾着大半夜就过去了。</p>
-<p>第二天考虑中文字体的渲染，fork 了 <a href="http://www.typeisbeautiful.com/" target="_blank" rel="noopener">Type is Beautiful</a> 的 <code>font</code> CSS，调整了字号，适配了 Win 的渣渲染，中英文混排效果好多了。</p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>回顾这个博客的诞生，纯粹是出于个人兴趣。在知乎相关问题上回答并获得一定的 star 后，我决定把这个博客主题当作一个小小的开源项目来维护。</p>
-<p>在经历 v1.0 - v1.5 的蜕变后，这个博客主题愈发完整，不但增加了诸多 UI 层的优化（opinionated）；在代码层面，更加丰富的配置项也使得这个主题拥有了更好的灵活性与可拓展性。而作为一个开源项目，我也积极的为其完善文档与解决 issue。</p>
-<p>如果你恰好逛到了这里，希望你也能喜欢这个博客主题。</p>
-<p>—— Hux 后记于 2015.10</p>
+                <p>2018-09-18 Update：新增Redis设置密码</p>
+<p>Tomcat默认会自己存储Session,但如果要使用Tomcat集群，就会涉及到Tomcat的Session共享了，之前有提到过Tomcat本身也有集群工具，只需要配置context.xml中的<cluster>就可以了，具体的使用可以参考文章：<a href="http://193.112.158.158:4000/blog/201808/Tomcat%E9%85%8D%E7%BD%AESession%E5%85%B1%E4%BA%AB/" target="_blank" rel="noopener">Tomcat配置Session共享</a></cluster></p>
+<p>这里介绍另一种方法，使用Redis存储Tomcat的Session,实现Session共享</p>
+<a id="more"></a>
+<h4 id="Ubuntu安装Redis及配置"><a href="#Ubuntu安装Redis及配置" class="headerlink" title="Ubuntu安装Redis及配置"></a>Ubuntu安装Redis及配置</h4><figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">安装redis-<span class="built_in">server</span></span><br><span class="line">apt-<span class="keyword">get</span> install redis-<span class="built_in">server</span></span><br><span class="line">查看Redis进程</span><br><span class="line">ps -aux|grep redis</span><br></pre></td></tr></table></figure>
+<ol>
+<li>Redis设置运行远程访问<br>可以通过修改配置文件使得Redis被远程访问，配置文件存储路径：/etc/redis/redis.conf ，注释掉bind 127.0.0.1</li>
+<li>Redis设置密码<br>vi /etc/redis/redis.conf<br>修改一下内容<br>requirepass redisredis</li>
+<li>Redis的客户端工具<br>RedisDesktopManager</li>
+</ol>
+<h4 id="将jar拷贝进tomcat的lib目录下"><a href="#将jar拷贝进tomcat的lib目录下" class="headerlink" title="将jar拷贝进tomcat的lib目录下"></a>将jar拷贝进tomcat的lib目录下</h4><p>所需要的jar包，在下方的链接提供了下载：</p>
+<p>tomcat-redis-session-manager-VERSION.jar(v1.2)<br>commons-pool2-VERSION.jar(v2.2)<br>jedis-VERSION.jar(v2.5.2)</p>
+<h4 id="修改context-xml文件"><a href="#修改context-xml文件" class="headerlink" title="修改context.xml文件"></a>修改context.xml文件</h4><p>文件路径：tomcat安装目录-&gt;conf-&gt;context.xml<br>Context节点添加一下内容：可以设置redis的密码、database</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;Valve <span class="attribute">className</span>=<span class="string">"com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve"</span> /&gt;</span><br><span class="line">&lt;Manager <span class="attribute">className</span>=<span class="string">"com.orangefunction.tomcat.redissessions.RedisSessionManager"</span></span><br><span class="line">       <span class="attribute">host</span>=<span class="string">"192.168.112.128"</span></span><br><span class="line">       <span class="attribute">port</span>=<span class="string">"6379"</span></span><br><span class="line">       <span class="attribute">password</span>=<span class="string">"123456"</span></span><br><span class="line">       <span class="attribute">database</span>=<span class="string">"0"</span></span><br><span class="line">       <span class="attribute">maxInactiveInterval</span>=<span class="string">"60"</span> /&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="确定Tomcat的Session的保存位置"><a href="#确定Tomcat的Session的保存位置" class="headerlink" title="确定Tomcat的Session的保存位置"></a>确定Tomcat的Session的保存位置</h4><p>启动Tomcat</p>
+<ol>
+<li>可以使用RedisDesktopManager查看Redis中保存的数据</li>
+<li>使用Tomcat自带的manager,查看是否有保存数据</li>
+</ol>
+<h4 id="需要使用的文件"><a href="#需要使用的文件" class="headerlink" title="需要使用的文件"></a>需要使用的文件</h4><p>链接：<a href="https://pan.baidu.com/s/1bVEhKTRXX9PuCZndR-182A" target="_blank" rel="noopener">https://pan.baidu.com/s/1bVEhKTRXX9PuCZndR-182A</a> 密码：zxee</p>
+<h4 id="Referenced"><a href="#Referenced" class="headerlink" title="Referenced"></a>Referenced</h4><p>[1]搭建Tomcat集群&amp;通过Redis缓存共享session的一种流行方案<a href="https://segmentfault.com/a/1190000009591087" target="_blank" rel="noopener">https://segmentfault.com/a/1190000009591087</a><br>[2]Ubuntu16.04安装Redis <a href="https://www.cnblogs.com/zongfa/p/7808807.html" target="_blank" rel="noopener">https://www.cnblogs.com/zongfa/p/7808807.html</a></p>
 
 
                 <hr>
@@ -233,12 +221,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/blog/2014/09/22/js-version/" data-toggle="tooltip" data-placement="top" title="Example Post">&larr; Previous Post</a>
+                            <a href="/blog/2019/04/03/Gogs搭建私有Git服务器/" data-toggle="tooltip" data-placement="top" title="Gogs搭建私有Git服务器">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/blog/2013/05/25/js-module-loader/" data-toggle="tooltip" data-placement="top" title="Example Post with Code Highlight">Next Post &rarr;</a>
+                            <a href="/blog/2018/08/29/Grafana构建监控工具/" data-toggle="tooltip" data-placement="top" title="使用Grafana+Promethes对Mysql进行监控">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -271,7 +259,7 @@
                     <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/blog/tags/#生活" title="生活">生活</a>
+                          <a class="tag" href="/blog/tags/#Redis" title="Redis">Redis</a>
                         
                     </div>
                 </section>
@@ -311,8 +299,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "blog";
-    var disqus_identifier = "https://shenmamuniu.github.io/blog/2014/01/29/hello-2015/";
-    var disqus_url = "https://shenmamuniu.github.io/blog/2014/01/29/hello-2015/";
+    var disqus_identifier = "https://shenmamuniu.github.io/blog/2018/09/17/Tomcat集群-使用Redis共享Session/";
+    var disqus_url = "https://shenmamuniu.github.io/blog/2018/09/17/Tomcat集群-使用Redis共享Session/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
