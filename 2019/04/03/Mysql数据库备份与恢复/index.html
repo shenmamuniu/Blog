@@ -13,11 +13,11 @@
 
     <title>
         
-          Welcome to Hux Blog - Justin的博客 | Justin&#39;s Blog
+          Mysql数据库备份与恢复 - Justin的博客 | Justin&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://shenmamuniu.github.io/blog/blog/2014/01/29/hello-2015/">
+    <link rel="canonical" href="https://shenmamuniu.github.io/blog/blog/2019/04/03/Mysql数据库备份与恢复/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
@@ -155,7 +155,7 @@
 <!-- Post Header -->
 <style type="text/css">
     header.intro-header{
-        background-image: url('post-bg-2015.jpg')
+        background-image: url('/blog/img/home-bg.jpg')
     }
 </style>
 <header class="intro-header">
@@ -165,14 +165,12 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/blog/tags/#生活" title="生活">生活</a>
-                        
                     </div>
-                    <h1>Welcome to Hux Blog</h1>
-                    <h2 class="subheading"> &quot;Hello World, Hello Blog&quot;</h2>
+                    <h1>Mysql数据库备份与恢复</h1>
+                    <h2 class="subheading"></h2>
                     <span class="meta">
-                        Posted by Hux on
-                        2014-01-29
+                        Posted by Justin Quber on
+                        2019-04-03
                     </span>
                 </div>
             </div>
@@ -191,39 +189,56 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <blockquote>
-<p>“Yeah It’s on. ”</p>
-</blockquote>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Hux 的 Blog 就这么开通了。</p>
-<p><a href="#build">跳过废话，直接看技术实现 </a></p>
-<p>2015 年，Hux 总算有个地方可以好好写点东西了。</p>
-<p>作为一个程序员， Blog 这种轮子要是挂在大众博客程序上就太没意思了。一是觉得大部分 Blog 服务都太丑，二是觉得不能随便定制不好玩。之前因为太懒没有折腾，结果就一直连个写 Blog 的地儿都没有。</p>
-<p>在玩了一段时间知乎之后，答题的快感又激起了我开博客的冲动。之前的<a href="http://huangxuan.me/portfolio" target="_blank" rel="noopener">个人网站</a>是作品集形式的（现在集成进来了），并不适合用来写博文，一不做二不休，花一天搞一个吧！</p>
-<h2 id><a href="#" class="headerlink" title></a><p id="build"></p></h2><h2 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h2><p>接下来说说搭建这个博客的技术细节。  </p>
-<p>正好之前就有关注过 <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> + <a href="http://jekyllrb.com/" target="_blank" rel="noopener">Jekyll</a> 快速 Building Blog 的技术方案，非常轻松时尚。</p>
-<p>其优点非常明显：</p>
-<ul>
-<li><strong>Markdown</strong> 带来的优雅写作体验</li>
-<li>非常熟悉的 Git workflow ，<strong>Git Commit 即 Blog Post</strong></li>
-<li>利用 GitHub Pages 的域名和免费无限空间，不用自己折腾主机<ul>
-<li>如果需要自定义域名，也只需要简单改改 DNS 加个 CNAME 就好了</li>
-</ul>
+                <h4 id="全量备份-4"><a href="#全量备份-4" class="headerlink" title="全量备份[4]"></a>全量备份[4]</h4><p>数据库的全量备份有mysqldump工具，也可以<a href="https://jingyan.baidu.com/article/8275fc8667151446a03cf6e3.html" target="_blank" rel="noopener">使用navicat for mysql提供的备份工具</a>，这里只介绍mysqldump工具，使用步骤如下：</p>
+<ol>
+<li><p>数据库备份<br>全量备份可以使用mysql自带的mysqldump工具，参数有：<br>databases,指定数据库<br>flush-logs，产生新的日志文件，binlog文件，这个在后面的增量备份有讲到过<br>delete-master-logs，删掉原来的日志文件，binlog文件<br>DumpFile是要备份的目标文件，输出文件<br>具体命令如下：</p>
+<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">mysqldump</span> <span class="literal">-</span><span class="comment">uroot</span> <span class="literal">-</span><span class="comment">p123456</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">databases</span> <span class="comment">wordpressdb</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">flush</span><span class="literal">-</span><span class="comment">logs</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">delete</span><span class="literal">-</span><span class="comment">master</span><span class="literal">-</span><span class="comment">logs</span> <span class="literal">-</span><span class="literal">-</span><span class="comment">single</span><span class="literal">-</span><span class="comment">transaction</span> &gt; <span class="comment">$DumpFile</span></span><br></pre></td></tr></table></figure>
 </li>
-<li>Jekyll 的自定制非常容易，基本就是个模版引擎</li>
-</ul>
-<p>本来觉得最大的缺点可能是 GitHub 在国内访问起来太慢，所以第二天一起床就到 GitCafe(Chinese GitHub Copy) 迁移了一个<a href="http://huxpro.gitcafe.io" target="_blank" rel="noopener">镜像</a>出来，结果还是巨慢。</p>
-<p>哥哥可是个前端好嘛！ 果断开 Chrome DevTool 查了下网络请求，原来是 <strong>pending 在了 Google Fonts</strong> 上，页面渲染一直被阻塞到请求超时为止，难怪这么慢。<br>忍痛割爱，只好把 Web Fonts 去了（反正超时看到的也只能是 fallback ），果然一下就正常了，而且 GitHub 和 GitCafe 对比并没有感受到明显的速度差异，虽然 github 的 ping 值明显要高一些，达到了 300ms，于是用 DNSPOD 优化了一下速度。</p>
-<hr>
-<p>配置的过程中也没遇到什么坑，基本就是 Git 的流程，相当顺手</p>
-<p>大的 Jekyll 主题上直接 fork 了 Clean Blog（这个主题也相当有名，就不多赘述了。唯一的缺点大概就是没有标签支持，于是我给它补上了。）</p>
-<p>本地调试环境需要 <code>gem install jekyll</code>，结果 rubygem 的源居然被墙了……后来手动改成了我大淘宝的镜像源才成功</p>
-<p>Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了（平时更习惯 SCSS 些），<strong>不过其实我一直觉得 Bootstrap 在移动端的体验做得相当一般，比我在淘宝参与的团队 CSS 框架差多了……</strong>所以为了体验，也补了不少 CSS 进去</p>
-<p>最后就进入了耗时反而最长的<strong>做图、写字</strong>阶段，也算是进入了<strong>写博客</strong>的正轨，因为是类似 Hack Day 的方式去搭这个站的，所以折腾折腾着大半夜就过去了。</p>
-<p>第二天考虑中文字体的渲染，fork 了 <a href="http://www.typeisbeautiful.com/" target="_blank" rel="noopener">Type is Beautiful</a> 的 <code>font</code> CSS，调整了字号，适配了 Win 的渣渲染，中英文混排效果好多了。</p>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>回顾这个博客的诞生，纯粹是出于个人兴趣。在知乎相关问题上回答并获得一定的 star 后，我决定把这个博客主题当作一个小小的开源项目来维护。</p>
-<p>在经历 v1.0 - v1.5 的蜕变后，这个博客主题愈发完整，不但增加了诸多 UI 层的优化（opinionated）；在代码层面，更加丰富的配置项也使得这个主题拥有了更好的灵活性与可拓展性。而作为一个开源项目，我也积极的为其完善文档与解决 issue。</p>
-<p>如果你恰好逛到了这里，希望你也能喜欢这个博客主题。</p>
-<p>—— Hux 后记于 2015.10</p>
+<li><p>数据库恢复<br>恢复的命令是在MySQL命令行中执行的，要先手动创建一个数据库，然后再use这个数据库：<br>mysql&gt;source  $DumpFile</p>
+</li>
+</ol>
+<p>ps: 如果没什么特殊要求的话，其实使用Navicat for mysql做全量备份就可以了</p>
+<h4 id="增量备份"><a href="#增量备份" class="headerlink" title="增量备份"></a>增量备份</h4><p>增量备份是通过binlog实现的，只需要开启mysql的binlog，用户所有的DDL、DML语句都会记录在这个文件中，mysql binlog的开启这里不再介绍。</p>
+<ol>
+<li><p>Mysql查看binlog的开启状态<br>show variables like ‘%log_bin%’<br>其他binlog相关的命令(需要在mysql-client中执行)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">master</span> <span class="keyword">status</span>;</span><br><span class="line"><span class="comment">-- 查看binlog的内容</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">binlog</span> <span class="keyword">events</span> <span class="keyword">in</span> <span class="string">'mysql-bin.000003'</span>;</span><br><span class="line"><span class="comment">-- 使用新的文件记录日志</span></span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">logs</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用mysqlbinlog查看binlog的内容<br>mysqlbinlog –no-defaults   mysql-bin.000004<br>mysqlbinlog  –no-defaults  –base64-output=decode-rows –verbose mysql-bin.000015</p>
+</li>
+</ol>
+<h4 id="通过binlog对数据进行恢复"><a href="#通过binlog对数据进行恢复" class="headerlink" title="通过binlog对数据进行恢复"></a>通过binlog对数据进行恢复</h4><p>使用mysqlbinlog工具mysql的数据进行恢复</p>
+<p>mysqlbinlog –no-defaults –start-position=’651’  –stop-position=’556’ mysql-bin.000004 mysql-bin.000005 | mysql -uroot -pabc123</p>
+<p>除了使用positon,也可以使用time，如下：<br><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysqlbinlog --no-defaults --stop-datetime='<span class="number">2018-09-03</span> 22:18:03' /usr/local/mysql/data/mysql-bin.<span class="number">000004</span> <span class="string">| mysql -uroot -p</span></span><br><span class="line"></span><br><span class="line">mysqlbinlog --no-defaults --start-datetime='<span class="number">2018-09-03</span> 22:18:09' /usr/local/mysql/data/mysql-bin.<span class="number">000004</span> <span class="string">| mysql -uroot -p</span></span><br></pre></td></tr></table></figure></p>
+<p>如果有多个binlog,并排写,中间用空格隔开，其中第一个start-position是第一个binlog文件的pos点，stop-position是最后一个binlog的pos点</p>
+<p>关于binlog需要注意一下几点：</p>
+<ol>
+<li>不要查看当前正在写入的binlog文件</li>
+<li>不要加–force参数强制访问</li>
+<li>如果binlog格式是行模式的,请加 -vv参数</li>
+</ol>
+<h4 id="使用XtraBackup对数据库进行备份与恢复"><a href="#使用XtraBackup对数据库进行备份与恢复" class="headerlink" title="使用XtraBackup对数据库进行备份与恢复"></a>使用XtraBackup对数据库进行备份与恢复</h4><p>Mysql几种不同的备份方式：<br>设计合适的备份策略：</p>
+<pre><code>针对不同的场景下, 我们应该制定不同的备份策略对数据库进行备份, 一般情况下, 备份策略一般为以下三种
+
+    直接cp,tar复制数据库文件
+
+    mysqldump+复制BIN LOGS
+
+    lvm2快照+复制BIN LOGS
+
+    xtrabackup
+
+以上的几种解决方案分别针对于不同的场景
+
+    如果数据量较小, 可以使用第一种方式, 直接复制数据库文件
+
+    如果数据量还行, 可以使用第二种方式, 先使用mysqldump对数据库进行完全备份, 然后定期备份BINARY LOG达到增量备份的效果
+
+    如果数据量一般, 而又不过分影响业务运行, 可以使用第三种方式, 使用lvm2的快照对数据文件进行备份, 而后定期备份BINARY LOG达到增量备份的效果
+
+    如果数据量很大, 而又不过分影响业务运行, 可以使用第四种方式, 使用xtrabackup进行完全备份后, 定期使用xtrabackup进行增量备份或差异备份
+</code></pre><p><a href="https://www.cnblogs.com/SQL888/p/5751631.html" target="_blank" rel="noopener">https://www.cnblogs.com/SQL888/p/5751631.html</a></p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>通常情况下，如果数据库出现了问题，是需要全量备份和增量备份结合的，先通过全量备份恢复数据库，之后查看binlog找到导致问题的位置，恢复到问题之前的位置就可以了</p>
+<h4 id="Referenced"><a href="#Referenced" class="headerlink" title="Referenced"></a>Referenced</h4><p><a href="https://www.cnblogs.com/cobbliu/p/4311926.html" target="_blank" rel="noopener">1、mysqlbinlog 查看binlog时报错unknown variable ‘default-character-set=utf8’</a><br><a href="https://www.cnblogs.com/snifferhu/p/5280489.html" target="_blank" rel="noopener">2、MySQL的binlog数据如何查看</a><br><a href="https://blog.csdn.net/anzhen0429/article/details/78007127" target="_blank" rel="noopener">3、MYSQL简单的binlog恢复测试</a><br><a href="https://www.tuicool.com/articles/UzMNneb" target="_blank" rel="noopener">4、安全的web服务器——使用mysqldump和mysqlbinlog实现MySQL全量与增量备份</a></p>
 
 
                 <hr>
@@ -232,13 +247,9 @@
 
                 <ul class="pager">
                     
-                        <li class="previous">
-                            <a href="/blog/2014/09/22/js-version/" data-toggle="tooltip" data-placement="top" title="Example Post">&larr; Previous Post</a>
-                        </li>
-                    
                     
                         <li class="next">
-                            <a href="/blog/2013/05/25/js-module-loader/" data-toggle="tooltip" data-placement="top" title="Example Post with Code Highlight">Next Post &rarr;</a>
+                            <a href="/blog/2015/07/09/js-module-7day/" data-toggle="tooltip" data-placement="top" title="Example Post using Keynote Layout">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -271,8 +282,6 @@
                     <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/blog/tags/#生活" title="生活">生活</a>
-                        
                     </div>
                 </section>
                 
@@ -311,8 +320,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "blog";
-    var disqus_identifier = "https://shenmamuniu.github.io/blog/2014/01/29/hello-2015/";
-    var disqus_url = "https://shenmamuniu.github.io/blog/2014/01/29/hello-2015/";
+    var disqus_identifier = "https://shenmamuniu.github.io/blog/2019/04/03/Mysql数据库备份与恢复/";
+    var disqus_url = "https://shenmamuniu.github.io/blog/2019/04/03/Mysql数据库备份与恢复/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
