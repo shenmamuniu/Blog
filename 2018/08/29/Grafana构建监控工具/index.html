@@ -13,11 +13,11 @@
 
     <title>
         
-          视频码率与网络带宽 - Justin的博客 | Justin&#39;s Blog
+          使用Grafana+Promethes对Mysql进行监控 - Justin的博客 | Justin&#39;s Blog
         
     </title>
 
-    <link rel="canonical" href="https://shenmamuniu.github.io/blog/blog/2018/07/30/视频码率与网络带宽/">
+    <link rel="canonical" href="https://shenmamuniu.github.io/blog/blog/2018/08/29/Grafana构建监控工具/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/blog/css/bootstrap.min.css">
@@ -165,14 +165,14 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                          <a class="tag" href="/blog/tags/#多媒体" title="多媒体">多媒体</a>
+                          <a class="tag" href="/blog/tags/#系统监控" title="系统监控">系统监控</a>
                         
                     </div>
-                    <h1>视频码率与网络带宽</h1>
+                    <h1>使用Grafana+Promethes对Mysql进行监控</h1>
                     <h2 class="subheading"></h2>
                     <span class="meta">
                         Posted by Justin Quber on
-                        2018-07-30
+                        2018-08-29
                     </span>
                 </div>
             </div>
@@ -191,11 +191,39 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>根据视频的文件大小和视频来计算视频码率，之后计算保证在线视频播放不卡所需要的带宽</p>
-<a id="more"></a>
-<h2 id="基本算法"><a href="#基本算法" class="headerlink" title="基本算法"></a>基本算法</h2><p><a href="kbps">码率</a>=【文件大小】(KB) <em> 8 / 【时间】(秒)，举例，D5的碟，容量4.3G，其中考虑到音频的不同格式，姑且算为600M，（故剩余容量为4.3</em>1024-600=3803.2M)，所以视频文件应不大于3.7G，本例中取视频文件的容量为3.446G，视频长度100分钟（6000秒），计算结果：码率约等于4818kbps(3.446 <em> 1024 </em> 1024 * 8 / 6000 = 4817.857)。</p>
-<h2 id="码率的几点原则"><a href="#码率的几点原则" class="headerlink" title="码率的几点原则"></a>码率的几点原则</h2><p>1、码率和质量成正比，但是文件体积也和码率成正比。这是要牢记的。<br>2、码率超过一定数值，对图像的质量没有多大影响。<br>3、DVD的容量有限，无论是标准的4.3G，还是超刻，或是D9，都有极限。视频码率　计算机中的信息都是二进制的0和1来表示，其中每一个0或1被称作一个位，用小写b表示，即bit（位）；大写B表示byte,即字节，一个字节=八个位，即1B=8b；前面的大写K表示1024的意思，即1024个位（Kb)或1024个字节(KB)。表示文件的大小单位，一般都使用字节（KB）来表示文件的大小。<br>Kbps：首先要了解的是，ps指的是/s，即每秒。Kbps指的是网络速度，也就是每秒钟传送多少个千位的信息（K表示千位，Kb表示的是多少千个位），为了在直观上显得网络的传输速度较快，一般公司都使用kb（千位）来表示。1KB/S=8Kbps。ADSL上网时的网速是512Kbps,如果转换成字节，就是512/8=64KB/S(即64千字节每秒）。<br>4、一般来说，如果是1M的宽带，在网上只能看不超过1024kbps的视频，超过1024kbps的视频只能等视频缓冲才能流畅的观看。</p>
-<h3 id="Preference"><a href="#Preference" class="headerlink" title="Preference"></a>Preference</h3><p><a href="https://baike.baidu.com/item/%E8%A7%86%E9%A2%91%E7%A0%81%E7%8E%87/10008023?fr=kg_qa" target="_blank" rel="noopener">https://baike.baidu.com/item/%E8%A7%86%E9%A2%91%E7%A0%81%E7%8E%87/10008023?fr=kg_qa</a></p>
+                <p>使用Grafana+Promethes对Mysql进行监控<br>运行环境：Ubuntu 16.04,Ubuntu14.04</p>
+<h3 id="exporter数据采集工具的启动"><a href="#exporter数据采集工具的启动" class="headerlink" title="exporter数据采集工具的启动"></a>exporter数据采集工具的启动</h3><ol>
+<li>mysqld_exporter ：采集Mysql Server的信息,启动之后的端口默认为9104</li>
+<li>node_exporter：用于采集服务器的性能信息，启动之后的端口默认为9100<br>工具下载地址：<br><a href="https://github.com/prometheus" target="_blank" rel="noopener">https://github.com/prometheus</a><br>Mysqld_exporter配置数据库的用户名和密码,创建.my.cnf文件，内容如下：<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">user</span>=xx</span><br><span class="line"><span class="attr">password</span>=xx</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>运行：<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">./node_exporter</span> &amp;</span><br><span class="line"><span class="string">./mysqld_exporter</span> <span class="params">--config</span>.my-cnf=<span class="string">"t.my.cnf"</span> &amp;</span><br></pre></td></tr></table></figure></p>
+<p>mysqld_exporter的配置文件中可以填写Mysql数据库的配置信息</p>
+<h3 id="influxd-amp-telegraf"><a href="#influxd-amp-telegraf" class="headerlink" title="influxd&amp;telegraf"></a>influxd&amp;telegraf</h3><p><a href="https://www.cnblogs.com/deykenlee/p/7565647.html" target="_blank" rel="noopener">https://www.cnblogs.com/deykenlee/p/7565647.html</a></p>
+<h3 id="Prometheus"><a href="#Prometheus" class="headerlink" title="Prometheus"></a>Prometheus</h3><ol>
+<li><p>配置：prometheus.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- job_name:</span> <span class="string">linux1</span></span><br><span class="line"><span class="attr">  static_configs:</span></span><br><span class="line"><span class="attr">    - targets:</span> <span class="string">['192.168.1.120:9100']</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        instance:</span> <span class="string">sys1</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动<br>./prometheus &amp;</p>
+</li>
+<li>prometheus默认提供了一个GUI界面，可以帮助我们查看各个节点的信息，访问地址<br><a href="http://ip:9090" target="_blank" rel="noopener">http://ip:9090</a><a id="more"></a>
+<h3 id="Grafana的启动"><a href="#Grafana的启动" class="headerlink" title="Grafana的启动"></a>Grafana的启动</h3></li>
+<li><p>配置：conf/defaults.ini<br>可以配置默认的用户名和密码，如果想要启用用户注册，需要进行邮件配置,可参考</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">enabled</span> = <span class="literal">true</span> [开启邮件发送功能]</span><br><span class="line"><span class="attr">host</span> = smtp.exmail.qq.com:<span class="number">587</span> [发送者的邮件协议及端口]</span><br><span class="line"><span class="attr">user</span> = meijs@wwwscn.com[发送者的邮件地址]</span><br><span class="line"><span class="attr">password</span> = Mjs201709[发送者邮箱密码]</span><br><span class="line"><span class="attr">skip_verify</span> = <span class="literal">true</span>[校验]</span><br><span class="line"><span class="attr">from_address</span> = meijs@wwwscn.com[发送者的邮件地址]&lt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动<br>./grafana-server start &amp;</p>
+</li>
+<li><p>访问地址：<br><a href="http://ip:3000" target="_blank" rel="noopener">http://ip:3000</a><br>默认用户名密码：admin/admin</p>
+<p>可以在/conf/defaults.ini中配置</p>
+</li>
+<li><p>问题<br>启动之后可以自行导入一些其它的Dashboard，如System Overview,Mysql等一些Dashboard，不过有的参数可能无法正常显示，需要自行调整。</p>
+</li>
+</ol>
+<h3 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h3><h4 id="命令后台运行"><a href="#命令后台运行" class="headerlink" title="命令后台运行"></a>命令后台运行</h4><p>可以使用nohup命令<br>如mysql采集工具可以使用 nohup ./mysqld_exporter …来运行，但需要注意的是，当提示在…查看nohup.out时候，需要在shell中输入exit命令之后，才能在后台运行，参考：Reference 1</p>
+<h4 id="Linux查询端口号的PID"><a href="#Linux查询端口号的PID" class="headerlink" title="Linux查询端口号的PID"></a>Linux查询端口号的PID</h4><p>查询被占用的端口：lsof -i:8089<br>kill对应的进程：kill -9 PID</p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ol>
+<li>Linux command 后台运行：<a href="https://www.cnblogs.com/gotodsp/p/6390023.html" target="_blank" rel="noopener">https://www.cnblogs.com/gotodsp/p/6390023.html</a></li>
+</ol>
 
 
                 <hr>
@@ -205,12 +233,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/blog/2018/08/29/Grafana构建监控工具/" data-toggle="tooltip" data-placement="top" title="使用Grafana+Promethes对Mysql进行监控">&larr; Previous Post</a>
+                            <a href="/blog/2019/04/03/Gogs搭建私有Git服务器/" data-toggle="tooltip" data-placement="top" title="Gogs搭建私有Git服务器">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/blog/2015/07/09/js-module-7day/" data-toggle="tooltip" data-placement="top" title="Example Post using Keynote Layout">Next Post &rarr;</a>
+                            <a href="/blog/2018/07/30/视频码率与网络带宽/" data-toggle="tooltip" data-placement="top" title="视频码率与网络带宽">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -243,7 +271,7 @@
                     <h5><a href="/blog/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/blog/tags/#多媒体" title="多媒体">多媒体</a>
+                          <a class="tag" href="/blog/tags/#系统监控" title="系统监控">系统监控</a>
                         
                     </div>
                 </section>
@@ -283,8 +311,8 @@
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = "blog";
-    var disqus_identifier = "https://shenmamuniu.github.io/blog/2018/07/30/视频码率与网络带宽/";
-    var disqus_url = "https://shenmamuniu.github.io/blog/2018/07/30/视频码率与网络带宽/";
+    var disqus_identifier = "https://shenmamuniu.github.io/blog/2018/08/29/Grafana构建监控工具/";
+    var disqus_url = "https://shenmamuniu.github.io/blog/2018/08/29/Grafana构建监控工具/";
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
