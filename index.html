@@ -184,24 +184,17 @@
 
 <div class="post-preview">
 
-    <a href="/blog/2019/04/03/Gogs搭建私有Git服务器/">
+    <a href="/blog/2019/04/03/Mysql数据库备份与恢复/">
         <h2 class="post-title">
-            Gogs搭建私有Git服务器
+            Mysql数据库备份与恢复
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            
-title: Gogs搭建私有Git服务器date: 2018-07-31tags: Gitcategories: Git
-type: GitAbstract运行环境：
+            全量备份[4]数据库的全量备份有mysqldump工具，也可以使用navicat for mysql提供的备份工具，这里只介绍mysqldump工具，使用步骤如下：
 
-Ubuntu: 16.04
-Gogs: 0.11.79
-
-在 Gogs官网 下载二进制安装包，如图，根据需要下载啦！
-通过./gogs web启用程序，按照提示进行安装即可。
-配置Httpshttps的配置首先需要申请证......
+数据库备份全量备份可以使用mysql自带的mysqldump工具，参数有：databases,指定数据库flush-logs，产生新的日志文件，binlog文件，这个在后面的增量备份有讲到过delete-master-logs......
         </div>
     </a>
     <p class="post-meta">
@@ -214,17 +207,23 @@ Gogs: 0.11.79
 
 <div class="post-preview">
 
-    <a href="/blog/2019/04/03/Mysql数据库备份与恢复/">
+    <a href="/blog/2019/04/03/Gogs搭建私有Git服务器/">
         <h2 class="post-title">
-            Mysql数据库备份与恢复
+            Gogs搭建私有Git服务器
         </h2>
         <h3 class="post-subtitle">
             
         </h3>
         <div class="post-content-preview">
-            全量备份[4]数据库的全量备份有mysqldump工具，也可以使用navicat for mysql提供的备份工具，这里只介绍mysqldump工具，使用步骤如下：
+            Abstract运行环境：
 
-数据库备份全量备份可以使用mysql自带的mysqldump工具，参数有：databases,指定数据库flush-logs，产生新的日志文件，binlog文件，这个在后面的增量备份有讲到过delete-master-logs......
+Ubuntu: 16.04
+Gogs: 0.11.79
+
+在 Gogs官网 下载二进制安装包，如图，根据需要下载啦！
+通过./gogs web启用程序，按照提示进行安装即可。
+配置Httpshttps的配置首先需要申请证书，这个在阿里云上可以直接申请，然后直接下载使用Nginx的即可，包含一个pem，一个key文件
+修改gogs的配置，修改/custom/con......
         </div>
     </a>
     <p class="post-meta">
@@ -413,6 +412,10 @@ Here comes Module!
                         
                             
                             <a href="/blog/tags/#JavaScript" title="JavaScript" rel="3">JavaScript</a>
+                            
+                        
+                            
+                        
                             
                         
                             
